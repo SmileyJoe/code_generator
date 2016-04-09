@@ -113,9 +113,9 @@ class ClassBuilder:
                 varTypeArray = varType
 
             fromApiItems += self.fromApiItem(varTypeArray, varTypeClass, key)
-            toStringItems += self.toStringItem(key)
             constants += self.tagConstant(key)
             key = toCamelCase(key)
+            toStringItems += self.toStringItem(key)
             variables += self.variable(varType, key)
             setters += self.setter(varType, key)
             getters += self.getter(varType, key)
