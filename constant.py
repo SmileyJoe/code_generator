@@ -34,3 +34,10 @@ templateFromJson = """        item.set{funcName}""" + \
 templateFromJsonObject = """        item.set{funcName}""" + \
 """({varType}.fromApi(helper.get{varTypeClass}({tagName})));
 """
+templateToString = """    @Override
+    public String toString(){{
+        return '{className}{{' 
+        {contents}      '}}';
+    }}
+"""
+templateToStringItem = """          + '{varName} = ' + {varName}""" + newline

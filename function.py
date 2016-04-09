@@ -37,6 +37,10 @@ def fromApi(varType, contents):
     return templateFromApi.format(varType=varType, contents=contents)
 
 
+def toString(className, contents):
+    return templateToString.format(className=className, contents=contents)
+
+
 def globalName(name):
     varName = uppercaseFirst(name)
     return tamplateGlobalName.format(varName=varName)
@@ -55,6 +59,11 @@ def fromApiItem(varType, varTypeClass, jsonKey):
         varTypeClass = uppercaseFirst(varType)
         return templateFromJson.format(
             varTypeClass=varTypeClass, funcName=funcName, tagName=tagName)
+
+
+def toStringItem(name):
+    varName = globalName(name)
+    return templateToStringItem.format(varName=varName)
 
 
 def uppercaseFirst(name):

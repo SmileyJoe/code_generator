@@ -5,10 +5,12 @@ from function import *
 from constant import *
 from pprint import pprint
 
+jsonDir = "text"
+javaDir = "java"
 fullFilename = "test.txt"
 filename = os.path.splitext(fullFilename)[0]
 
-with open(fullFilename) as dataFile:
+with open(jsonDir + "/" + fullFilename) as dataFile:
     data = json.load(dataFile)
 
 print data["name"]
@@ -22,6 +24,7 @@ getters = ""
 setters = ""
 constants = ""
 fromApiItems = ""
+toStringItems = ""
 
 for key, value in data.iteritems():
     varTypeClass = ""
@@ -45,6 +48,7 @@ for key, value in data.iteritems():
         varTypeArray = varType
 
     fromApiItems += fromApiItem(varTypeArray, varTypeClass, key)
+    toStringItems += toStringItem(key)
     constants += tagConstant(key)
     key = toCamelCase(key)
     variables += variable(varType, key)
@@ -55,7 +59,8 @@ contents += newline + constants + newline + \
 variables + newline + \
 setters + \
 getters + \
-fromApi(className, fromApiItems) + "}"
+toString("Something", toStringItems) + "}"
+#fromApi(className, fromApiItems) + "}"
 
-with open(className + ".java", "w+") as f:
+with open(javaDir + "/" + className + ".java", "w+") as f:
     f.write(contents)
