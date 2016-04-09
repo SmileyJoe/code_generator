@@ -26,7 +26,7 @@ class ClassBuilder:
 
 
     def constantName(self, varName):
-        varName = varName.upper()
+        varName = toUnderscore(varName).upper()
         return Template.constantName.format(varName=varName)
 
 

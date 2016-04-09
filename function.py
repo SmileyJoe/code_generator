@@ -30,6 +30,27 @@ def toCamelCase(name):
             camelName += uppercaseFirst(item)
     return camelName
     
+    
+def toUnderscore(string):
+    underscore = ""
+    position = 0;
+    prevPosition = 0
+    
+    for letter in string:
+        position = position+1
+        if(letter.isupper()):
+            if(underscore != ""):
+                underscore += "_"
+            underscore += string[prevPosition:position-1].lower()
+            prevPosition = position-1
+    
+    if(underscore != ""):
+        underscore += "_"
+    underscore += string[prevPosition:position].lower()
+    
+    return underscore
+
+    
 def getFiles(dir, extension):
     items = listdir(dir)
     files = []
