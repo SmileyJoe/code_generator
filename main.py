@@ -59,7 +59,7 @@ contents += newline + constants + newline + \
 variables + newline + \
 setters + \
 getters + \
-toString("Something", toStringItems) + "}"
+toString(className, toStringItems) + "}"
 #fromApi(className, fromApiItems) + "}"
 
 with open(javaDir + "/" + className + ".java", "w+") as f:
