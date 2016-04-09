@@ -1,66 +1,29 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+import template
 from function import *
 from constant import *
 from pprint import pprint
+from class_builder import ClassBuilder
 
-jsonDir = "text"
+jsonDir = "json"
 javaDir = "java"
-fullFilename = "test.txt"
-filename = os.path.splitext(fullFilename)[0]
+acceptedExtension = "json"
+builder = ClassBuilder()
 
-with open(jsonDir + "/" + fullFilename) as dataFile:
-    data = json.load(dataFile)
+files = getFiles(jsonDir, acceptedExtension)
 
-print data["name"]
+for file in files:
+    filename = os.path.splitext(file)[0]
 
-pprint(data)
-className = uppercaseFirst(filename)
+    with open(jsonDir + "/" + file) as dataFile:
+        data = json.load(dataFile)
 
-contents = "public class " + className + "(){" + newline
-variables = ""
-getters = ""
-setters = ""
-constants = ""
-fromApiItems = ""
-toStringItems = ""
+    pprint(data)
 
-for key, value in data.iteritems():
-    varTypeClass = ""
-    varTypeArray = ""
-    if isinstance(value, int):
-        varType = "int"
-    elif isinstance(value, list):
-        varTypeArray = uppercaseFirst(toCamelCase(key))
-        varType = "ArrayList<{varName}>".format(
-            varName=varTypeArray)
-        varTypeClass = "JsonArray"
-    elif isinstance(value, dict):
-        varType = uppercaseFirst(toCamelCase(key))
-        varTypeClass = "JsonObject"
-    elif isinstance(value, float):
-        varType = "float"
-    else:
-        varType = "String"
+    builder.setClassName(uppercaseFirst(filename))
+    builder.setItems(data)
 
-    if not varTypeArray:
-        varTypeArray = varType
-
-    fromApiItems += fromApiItem(varTypeArray, varTypeClass, key)
-    toStringItems += toStringItem(key)
-    constants += tagConstant(key)
-    key = toCamelCase(key)
-    variables += variable(varType, key)
-    setters += setter(varType, key)
-    getters += getter(varType, key)
-
-contents += newline + constants + newline + \
-variables + newline + \
-setters + \
-getters + \
-toString(className, toStringItems) + "}"
-#fromApi(className, fromApiItems) + "}"
-
-with open(javaDir + "/" + className + ".java", "w+") as f:
-    f.write(contents)
+    with open(javaDir + "/" + builder.getClassName() + ".java", "w+") as f:
+        f.write(builder.build())
