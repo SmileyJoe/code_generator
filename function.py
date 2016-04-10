@@ -56,7 +56,6 @@ def getFiles(dir, extension):
     files = []
     
     for item in items:
-        print item
         if isfile(dir + "/" + item):
             tempExtension = os.path.splitext(item)[1][1:]
             if tempExtension == extension:
